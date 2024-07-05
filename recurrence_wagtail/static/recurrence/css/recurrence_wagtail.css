@@ -1,0 +1,156 @@
+textarea.recurrence-widget {
+  display: none;
+}
+
+div.recurrence-widget .dtstart {
+  border-bottom: 1px solid var(--w-color-border-field-default);
+  margin-bottom: 1.5rem;
+}
+
+div.recurrence-widget .limit {
+  border-top: 1px solid var(--w-color-border-field-default);
+  padding-top: 1.5rem;
+}
+
+div.recurrence-widget .form > :not(:empty) {
+  padding: .25em 0 1em 0;
+}
+
+/* TO FIX */
+div.recurrence-widget .weekday-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 1em;
+}
+
+div.recurrence-widget .weekday-grid .weekday {
+  border: 1px solid var(--w-color-surface-button-default);
+  border-radius: 100vh;
+  background-color: var(--w-color-surface-page);
+  color: var(--w-color-surface-button-default);
+  padding: 0.5rem 1rem;
+  transition: all 0.1s ease-in-out;
+}
+
+div.recurrence-widget .weekday-grid .weekday.active {
+  background-color: var(--w-color-surface-button-default);
+  color: var(--w-color-text-button);
+}
+
+div.recurrence-widget .weekday-grid .weekday:hover {
+  background-color: var(--w-color-surface-button-hover);
+  border-color: #0000;
+  color: var(--w-color-text-button);
+}
+
+
+div.recurrence-widget .section {
+  margin: .5em 1em;
+}
+
+div.recurrence-widget .grid {
+  border: 0;
+  border-top: 1px solid var(--w-color-border-field-default);
+  border-left: 1px solid var(--w-color-border-field-default);
+}
+
+div.recurrence-widget .grid td {
+  text-align: center;
+  border-bottom: 1px solid var(--w-color-border-field-default);
+  border-right: 1px solid var(--w-color-border-field-default);
+  padding: .8em;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+div.recurrence-widget .grid td.active {
+  background-color: var(--w-color-surface-button-default);
+  color: var(--w-color-text-button);
+}
+
+div.recurrence-widget .grid td.empty {
+  border: 0;
+}
+
+div.recurrence-widget .grid[data-readonly] td.active {
+  background-color: var(--w-color-surface-button-inactive);
+}
+
+
+div.recurrence-widget .monthday .grid {
+  margin-left: .5em;
+}
+
+div.recurrence-widget .yearly-form table.months {
+  margin: .5em 0 1em 0;
+}
+
+div.recurrence-widget .yearly td {
+  padding: 1em 1.5em;
+}
+
+/* END TO FIX */
+
+div.recurrence-widget .interval {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+div.recurrence-widget .panel_content {
+  padding-bottom: 2rem;
+}
+
+div.recurrence-widget input[type="number"] {
+  width: auto;
+}
+
+div.recurrence-widget .until-count {
+  margin-left: 1rem;
+}
+
+div.recurrence-widget .until-count li {
+  min-height: 3em;
+}
+
+div.recurrence-widget .inline-input {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  gap: 1rem;
+}
+
+div.recurrence-widget .inline-input > :first-child  {
+  margin-right: 0;
+}
+
+div.recurrence-widget .until-count li input[type="number"] {
+  width: 7rem;
+}
+
+div.recurrence-widget .until-count li input[type="date"] {
+  width: 13rem;
+}
+
+div.recurrence-widget .w-panel .w-panel__toggle {
+  margin-left: 1.5rem;
+}
+
+div.recurrence-widget .control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+div.recurrence-widget .hidden {
+  display: none;
+}
+
+*[data-recurrence-template] {
+display: none !important;
+}
+
+div.recurrence-widget .w-field__label--inline {
+  display: inline-block;
+}

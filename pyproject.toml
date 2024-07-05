@@ -1,0 +1,25 @@
+[project]
+name = "wagtail-recurrence"
+version = "1.13"
+description = "Wagtail widget and panel for django-recurrence"
+authors = [
+    {name = "Alessio Tognan", email = "tognan@infofactory.it"},
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+
+[project.urls]
+Homepage = "https://github.com/infofactory/wagtail-recurrence"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+"*" = ["*.py", "*.html", "*.css", "*.js", "*.po", "*.mo"]
+
+[tool.setuptools.package-dir]
+recurrence_wagtail = "recurrence_wagtail"

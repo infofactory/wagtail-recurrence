@@ -1,0 +1,249 @@
+{% extends "recurrence/recurrence_widget.html" %}
+{% load wagtailadmin_tags i18n %}
+
+{% block recurrence_widget %}
+
+<div class="recurrence-widget">
+
+  {% fragment as header_controls %}
+    <button type="button" class="button button--icon text-replace white remove" title="{% trans "Delete" %}">{% icon name="bin" %}</button>
+  {% endfragment %}
+
+  {% panel id_prefix=widget.name|add:'-recurrence-panel' heading="-" id="template" heading_size="label" icon="placeholder" header_controls=header_controls attrs=panel_template_attrs %}
+  {% endpanel %}
+
+  <div class="date panel_content" data-recurrence-template="date-form">
+    <div class="mode w-field__wrapper">
+      <label class="w-field__input">
+        <input class="checkbox" type="checkbox" name="mode">
+        <span class="w-field__label w-field__label--inline">{% trans "Exclude this date" %}</span>
+      </label>
+    </div>
+
+    <div class="date-value">
+      <label class="w-field__label">{% trans "Date" %}</label>
+      <div class="w-field__wrapper">
+        <input class="w-field__input" size="10" type="date">
+      </div>
+    </div>
+  </div>
+
+  <div class="recurrence panel_content" data-recurrence-template="rule-form">
+
+    <div class="dtstart">
+      <label class="w-field__label">{% trans "Repeat from" %}</label>
+      <div class="w-field__wrapper">
+        <input class="w-field__input" size="10" type="date">
+      </div>
+    </div>
+
+    <div class="mode w-field__wrapper">
+      <label class="w-field__input">
+        <input class="checkbox" type="checkbox" name="mode">
+        <span class="w-field__label w-field__label--inline">{% trans "Exclude these occurences" %}</span>
+      </label>
+    </div>
+
+    <div class="interval w-field__wrapper">
+      <span class="w-field__label w-field__label--inline">
+        {% blocktrans trimmed asvar every_label with number='' freq='' %}every {{ number }} {{ freq }}{% endblocktrans %}
+        {{ every_label.strip.capitalize }}
+      </span>
+      <input name="interval" type="number" size="4" value="1" min="1">
+      <select name="freq">
+        <option value="3" data-singular="{% trans "day" %}" data-plural="{% trans "days" %}">{% trans "day" %}</option>
+        <option value="2" data-singular="{% trans "week" %}" data-plural="{% trans "weeks" %}">{% trans "week" %}</option>
+        <option value="1" data-singular="{% trans "month" %}" data-plural="{% trans "months" %}">{% trans "month" %}</option>
+        <option value="0" data-singular="{% trans "year" %}" data-plural="{% trans "years" %}">{% trans "year" %}</option>
+      </select>
+    </div>
+
+    <div class="form">
+
+      <div class="yearly-form hidden">
+        <div>
+          <table class="grid months" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                {% for month in display.months %}
+                  <td data-value="{{ month|date:'n' }}">{{ month|date:'M' }}</td>
+                  {% if forloop.counter|divisibleby:"4" and not forloop.last %}
+                  </tr>
+                  <tr>
+                  {% endif %}
+                {% endfor %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="byday w-field__wrapper w-field__input inline-input">
+          <label>
+            <input class="checkbox" type="checkbox" name="yearly" value="byday">
+            <span class="w-field__label w-field__label--inline">
+              {% blocktrans trimmed asvar on_the_label with items='' %}on the {{ items }}{% endblocktrans %}
+              {{ on_the_label.strip.capitalize }}
+            </span>
+          </label>
+
+          <select name="position">
+            <option value="1">
+              {% blocktrans trimmed asvar position_label with weekday='' %}first {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="2">
+              {% blocktrans trimmed asvar position_label with weekday='' %}second {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="3">
+              {% blocktrans trimmed asvar position_label with weekday='' %}third {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="4">
+              {% blocktrans trimmed asvar position_label with weekday='' %}fourth {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="-1">
+              {% blocktrans trimmed asvar position_label with weekday='' %}last {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="-2">
+              {% blocktrans trimmed asvar position_label with weekday='' %}second last {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="-3">
+              {% blocktrans trimmed asvar position_label with weekday='' %}third last {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+          </select>
+
+          <select name="weekday">
+            {% for weekday in display.weekdays %}
+              <option value="{{ forloop.counter0 }}">{{ weekday|date:'l' }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="monthly-form hidden">
+        <div class="monthday w-field__wrapper">
+          <label class="w-field__input inline-input">
+            <input class="radio" type="radio" data-name="monthly" value="monthday">
+            <span class="w-field__label w-field__label--inline">
+              {% blocktrans trimmed asvar every_label with number='' freq='' %}every {{ number }} {{ freq }}{% endblocktrans %}
+              {{ every_label.strip.capitalize }}:
+            </span>
+          </label>
+          <div class="section">
+            <table class="grid" cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  {% for month in display.monthdays|add:display.last_monthdays %}
+                    <td data-value="{{ month }}">{{ month }}</td>
+                    {% if forloop.counter|divisibleby:"7" and not forloop.last %}
+                    </tr>
+                    <tr>
+                    {% endif %}
+                  {% endfor %}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="weekday w-field__wrapper w-field__input inline-input">
+          <label class="inline-input">
+            <input class="radio" type="radio" data-name="monthly" value="weekday">
+            <span class="w-field__label w-field__label--inline">
+              {% blocktrans trimmed asvar on_the_label with items='' %}on the {{ items }}{% endblocktrans %}
+              {{ on_the_label.strip.capitalize }}
+            </span>
+          </label>
+
+          <select name="position">
+            <option value="1">
+              {% blocktrans trimmed asvar position_label with weekday='' %}first {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="2">
+              {% blocktrans trimmed asvar position_label with weekday='' %}second {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="3">
+              {% blocktrans trimmed asvar position_label with weekday='' %}third {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="4">
+              {% blocktrans trimmed asvar position_label with weekday='' %}fourth {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="-1">
+              {% blocktrans trimmed asvar position_label with weekday='' %}last {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="-2">
+              {% blocktrans trimmed asvar position_label with weekday='' %}second last {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+            <option value="-3">
+              {% blocktrans trimmed asvar position_label with weekday='' %}third last {{ weekday }}{% endblocktrans %}
+              {{ position_label.strip }}
+            </option>
+          </select>
+
+          <select name="weekday">
+            {% for weekday in display.weekdays %}
+              <option value="{{ forloop.counter0 }}">{{ weekday|date:'l' }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="weekly-form hidden">
+        <div class="weekday-grid">
+          {% for weekday in display.weekdays %}
+            <button type="button" class="weekday btn" value="{{ forloop.counter0 }}">{{ weekday|date:'D' }}</button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="daily-form hidden"></div>
+
+    </div>
+
+    <div class="limit w-field__wrapper">
+      <label class="w-field__input">
+        <span class="w-field__label w-field__label--inline">{% trans "Repeat until" %}</span>
+      </label>
+      <ul class="until-count">
+        <li class="until inline-input">
+          <input class="radio" type="radio" data-name="until_count" value="until">
+          <span class="w-field__label">{% trans "Date" %}</span>
+          <input class="vTextField" size="10" type="date">
+        </li>
+        <li class="count inline-input">
+          <input class="radio" type="radio" data-name="until_count" value="count">
+          <span class="w-field__label w-field__label--inline"></span>
+          <input name="count" type="number" size="4" value="1" min="1">
+          <span class="w-field__label w-field__label--inline"></span>
+        </li>
+        <li class="never inline-input">
+          <input class="radio" type="radio" data-name="until_count" value="never">
+          <span class="w-field__label w-field__label--inline">{% trans "Never" %}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panels">
+  </div>
+  <div class="control">
+    <a href="#" class="button button-small bicolor button--icon button-secondary add-rule">
+      {% icon name="plus" wrapped=1 %}
+      {% trans "Add rule" %}
+    </a>
+    <a href="#" class="button button-small bicolor button--icon button-secondary add-date">
+      {% icon name="plus" wrapped=1 %}
+      {% trans "Add date" %}
+    </a>
+  </div>
+</div>
+{% endblock recurrence_widget %}
