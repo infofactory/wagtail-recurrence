@@ -1,9 +1,6 @@
 from django import forms
-from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
-from django.contrib.staticfiles.storage import staticfiles_storage
-from datetime import datetime
 from recurrence.forms import RecurrenceWidget as OriginalRecurrenceWidget
+from wagtail.admin.staticfiles import versioned_static
 
 class RecurrenceWidget(OriginalRecurrenceWidget):
     template_name = "recurrence/recurrence_widget_wagtail.html"
@@ -18,15 +15,15 @@ class RecurrenceWidget(OriginalRecurrenceWidget):
 
     def get_media(self):
         js = [
-            staticfiles_storage.url("recurrence/js/recurrence.js"),
-            staticfiles_storage.url("recurrence/js/recurrence-widget.js"),
-            staticfiles_storage.url("recurrence/js/recurrence-widget-wagtail.js"),
-            staticfiles_storage.url("recurrence/js/recurrence-widget.init.js"),
+            versioned_static("recurrence/js/recurrence.js"),
+            versioned_static("recurrence/js/recurrence-widget.js"),
+            versioned_static("recurrence/js/recurrence-widget-wagtail.js"),
+            versioned_static("recurrence/js/recurrence-widget.init.js"),
         ]
         return forms.Media(
             js=js,
             css={
-                "all": (staticfiles_storage.url("recurrence/css/recurrence_wagtail.css"),),
+                "all": (versioned_static("recurrence/css/recurrence_wagtail.css"),),
             },
         )
 

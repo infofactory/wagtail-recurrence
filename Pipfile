@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 setuptools = "*"
 django-recurrence = {ref = "main", git = "https://github.com/infofactory/django-recurrence.git"}
+wagtail = "*"
 
 [dev-packages]
 
